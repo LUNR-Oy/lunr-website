@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNR — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07080F;
+    --surface: #0C0E18;
+    --surface-2: #111422;
+    --border: rgba(255,255,255,0.055);
+    --border-soft: rgba(255,255,255,0.1);
+    --text-primary: #E8EBF4;
+    --text-muted: rgba(232,235,244,0.48);
+    --text-dim: rgba(232,235,244,0.2);
+    --accent: #8BA7F0;
+    --accent-dim: rgba(139,167,240,0.08);
+    --accent-border: rgba(139,167,240,0.18);
+    --purple: #9D8DF0;
+    --purple-dim: rgba(157,141,240,0.07);
+    --green: #5EC990;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 {
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(139,167,240,0.055) 0%, transparent 65%);
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    filter: blur(60px);
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(157,141,240,0.045) 0%, transparent 65%);
+    bottom: -50px; right: -80px;
+    filter: blur(80px);
+  }
+  .orb-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(ellipse, rgba(94,201,144,0.03) 0%, transparent 65%);
+    bottom: 30%; left: -60px;
+    filter: blur(60px);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Top live bar */
+  .live-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid var(--border-soft);
+    background: var(--surface);
+    border-radius: 100px;
+    padding: 8px 20px;
+    margin-bottom: 52px;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+  }
+  .live-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 3s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .live-count { color: var(--text-primary); font-weight: 500; }
+  .live-sep { width: 1px; height: 14px; background: var(--border-soft); }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* Logo */
+  .logo-wrap {
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.15s both;
+    margin-bottom: 0;
+  }
+  .logo-wrap img {
+    width: clamp(180px, 32vw, 380px);
+    height: auto;
+    display: block;
+    /* white logo on dark bg — no filter needed for LUNR_WHITE.png */
+  }
+
+  /* Tagline */
+  .tagline {
+    margin-top: 30px;
+    font-size: clamp(14px, 1.7vw, 16px);
+    font-weight: 300;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 420px;
+    line-height: 1.8;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.25s both;
+  }
+
+  /* Urgency row */
+  .urgency {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.33s both;
+  }
+  .urgency-badge {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .urgency-text {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  /* FOMO ticker */
+  .fomo-ticker {
+    margin-top: 10px;
+    height: 22px;
+    overflow: hidden;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.38s both;
+  }
+  .fomo-inner {
+    display: flex;
+    flex-direction: column;
+    animation: ticker 14s ease-in-out infinite;
+  }
+  .fomo-line {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .fomo-line .hl { color: var(--accent); margin: 0 4px; }
+
+  @keyframes ticker {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(0); }
+    27%  { transform: translateY(-22px); }
+    47%  { transform: translateY(-22px); }
+    54%  { transform: translateY(-44px); }
+    74%  { transform: translateY(-44px); }
+    81%  { transform: translateY(-66px); }
+    95%  { transform: translateY(-66px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Pillars */
+  .pillars {
+    display: flex;
+    gap: 14px;
+    margin-top: 72px;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.43s both;
+  }
+  .pillar {
+    padding: 28px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.3s, background 0.3s;
+    min-width: 160px;
+  }
+  .pillar:hover { border-color: var(--border-soft); background: var(--surface-2); }
+  .pillar-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    opacity: 0.55;
+  }
+  .pillar-label { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+  .pillar-desc { font-size: 12px; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+
+  /* Adara card */
+  .adara-card {
+    margin-top: 14px;
+    width: 100%;
+    max-width: 522px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.5s both;
+    transition: border-color 0.3s;
+  }
+  .adara-card:hover { border-color: var(--border-soft); }
+
+  .adara-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--purple-dim);
+    border: 1px solid rgba(157,141,240,0.16);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    margin-top: 2px;
+  }
+  .adara-body { flex: 1; }
+  .adara-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .adara-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .adara-pill {
+    background: var(--purple-dim);
+    border: 1px solid rgba(157,141,240,0.18);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    text-transform: uppercase;
+  }
+  .adara-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .adara-desc .hl { color: var(--purple); font-weight: 400; }
+
+  /* Notify */
+  .notify-block {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.58s both;
+  }
+  .notify-headline { font-size: 15px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .notify-sub { font-size: 12px; font-weight: 300; color: var(--text-muted); margin-bottom: 4px; }
+  .notify-sub .hl { color: var(--accent); font-weight: 400; }
+
+  .notify-form {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .notify-form:focus-within { border-color: rgba(139,167,240,0.4); }
+
+  .notify-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-primary);
+    width: 245px;
+  }
+  .notify-input::placeholder { color: var(--text-dim); }
+
+  .notify-btn {
+    background: var(--accent);
+    color: #07080F;
+    border: none;
+    padding: 12px 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    min-width: 148px;
+  }
+  .notify-btn:hover { opacity: 0.85; }
+  .notify-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .notify-disclaimer {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .notify-success {
+    display: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    padding: 10px 0;
+    text-align: center;
+    line-height: 1.9;
+  }
+  .notify-error {
+    display: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(240,120,120,0.8);
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-logo img {
+    width: 56px;
+    height: auto;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+  }
+  .footer-logo:hover img { opacity: 0.6; }
+  .footer-right { display: flex; gap: 24px; align-items: center; }
+  .footer-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    .pillars { flex-direction: column; width: 100%; max-width: 320px; }
+    .adara-card { max-width: 320px; }
+    .notify-input { width: 155px; }
+    .live-bar { gap: 12px; padding: 7px 14px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<main>
+
+  <div class="live-bar">
+    <div class="live-item">
+      <span class="live-dot"></span>
+      <span>Launch in progress</span>
+    </div>
+    <div class="live-sep"></div>
+    <div class="live-item">
+      <span class="live-count" id="waitlist-count">47</span>
+      <span>on the waitlist</span>
+    </div>
+    <div class="live-sep"></div>
+    <div class="live-item">Jyväskylä, Finland</div>
+  </div>
+
+  <div class="logo-wrap">
+    <img src="./LUNR_WHITE.png" alt="LUNR">
+  </div>
+
+  <p class="tagline">
+    Performance marketing &amp; AI-powered creative production — built for businesses that want real growth.
+  </p>
+
+  <div class="urgency">
+    <span class="urgency-badge">About to launch</span>
+    <span class="urgency-text">Early access spots are limited — be first in.</span>
+  </div>
+
+  <div class="fomo-ticker">
+    <div class="fomo-inner">
+      <div class="fomo-line">Someone from <span class="hl">Tampere</span> just joined the waitlist</div>
+      <div class="fomo-line">Early members get <span class="hl">priority onboarding</span> when we launch</div>
+      <div class="fomo-line">Only <span class="hl">a few spots</span> available for launch week clients</div>
+      <div class="fomo-line">Someone from <span class="hl">Helsinki</span> just joined the waitlist</div>
+    </div>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <span class="pillar-number">01</span>
+      <span class="pillar-label">Meta Ads</span>
+      <span class="pillar-desc">Campaign setup,<br>optimization &amp; reporting</span>
+    </div>
+    <div class="pillar">
+      <span class="pillar-number">02</span>
+      <span class="pillar-label">AI Creative</span>
+      <span class="pillar-desc">Videos, images &amp;<br>copy at scale</span>
+    </div>
+    <div class="pillar">
+      <span class="pillar-number">03</span>
+      <span class="pillar-label">Growth Partner</span>
+      <span class="pillar-desc">Performance-aligned,<br>not fixed fees</span>
+    </div>
+  </div>
+
+  <div class="adara-card">
+    <div class="adara-icon">⚡</div>
+    <div class="adara-body">
+      <div class="adara-top">
+        <span class="adara-name">Adara</span>
+        <span class="adara-pill">Coming SOON!</span>
+      </div>
+      <p class="adara-desc">
+        Our <span class="hl">AI-powered campaign tool</span> connects to your Meta Ads account, analyzes performance daily, and delivers one-click optimization suggestions — agency-quality UA without the agency price tag.
+      </p>
+    </div>
+  </div>
+
+  <div class="notify-block">
+    <span class="notify-headline">Secure your spot before we go live</span>
+    <span class="notify-sub">Join <span class="hl" id="waitlist-sub">47 others</span> already waiting — launching very soon.</span>
+
+    <div class="notify-form" id="notify-form-wrapper">
+      <input class="notify-input" id="email-input" type="email" placeholder="your@email.com">
+      <button class="notify-btn" id="notify-btn" onclick="handleSubmit()">Join the waitlist →</button>
+    </div>
+
+    <span class="notify-error" id="notify-error">Something went wrong — please try again.</span>
+
+    <div class="notify-success" id="notify-success">
+      ✓ &nbsp; You're on the list.<br>
+      <span style="opacity:0.55; font-size:11px;">We'll reach out personally when we launch.</span>
+    </div>
+
+    <span class="notify-disclaimer">No spam. One email when we launch — that's it.</span>
+  </div>
+
+</main>
+
+<footer>
+  <a class="footer-logo" href="#">
+    <img src="./LUNR_WHITE.png" alt="LUNR">
+  </a>
+  <div class="footer-right">
+    <a href="mailto:office@hellolunr.com" class="footer-link">office@hellolunr.com</a>
+    <a href="https://linkedin.com/" class="footer-link">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  let count = 47;
+  const countEl = document.getElementById('waitlist-count');
+  const subEl = document.getElementById('waitlist-sub');
+
+  setInterval(() => {
+    if (Math.random() > 0.65) {
+      count++;
+      countEl.textContent = count;
+      if (subEl) subEl.textContent = count + ' others';
+    }
+  }, 20000);
+
+  async function handleSubmit() {
+    const input = document.getElementById('email-input');
+    const btn = document.getElementById('notify-btn');
+    const formWrapper = document.getElementById('notify-form-wrapper');
+    const success = document.getElementById('notify-success');
+    const error = document.getElementById('notify-error');
+
+    const email = input.value.trim();
+
+    if (!email || !email.includes('@')) {
+      formWrapper.style.borderColor = 'rgba(220,80,80,0.35)';
+      setTimeout(() => formWrapper.style.borderColor = '', 1200);
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Securing your spot...';
+    error.style.display = 'none';
+
+    try {
+      const response = await fetch('https://formspree.io/f/mvzynjlz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: email })
+      });
+
+      if (response.ok) {
+        count++;
+        countEl.textContent = count;
+        if (subEl) subEl.textContent = count + ' others';
+        formWrapper.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        throw new Error('error');
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Join the waitlist →';
+      error.style.display = 'block';
+    }
+  }
+
+  document.getElementById('email-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubmit();
+  });
+</script>
+
+
+
+</body></html>
