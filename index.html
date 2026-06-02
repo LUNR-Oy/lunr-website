@@ -174,6 +174,7 @@
   .fomo-inner {
     display: flex;
     flex-direction: column;
+    animation: ticker 14s ease-in-out infinite;
   }
   .fomo-line {
     height: 22px;
@@ -186,6 +187,18 @@
     white-space: nowrap;
   }
   .fomo-line .hl { color: var(--accent); margin: 0 4px; }
+
+  @keyframes ticker {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(0); }
+    27%  { transform: translateY(-22px); }
+    47%  { transform: translateY(-22px); }
+    54%  { transform: translateY(-44px); }
+    74%  { transform: translateY(-44px); }
+    81%  { transform: translateY(-66px); }
+    95%  { transform: translateY(-66px); }
+    100% { transform: translateY(0); }
+  }
 
   /* Pillars */
   .pillars {
@@ -426,7 +439,10 @@
 
   <div class="fomo-ticker">
     <div class="fomo-inner">
-      <div class="fomo-line" id="fomo-line">Someone from <span class="hl">Tampere</span> just joined the waitlist</div>
+      <div class="fomo-line">Someone from <span class="hl">Tampere</span> just joined the waitlist</div>
+      <div class="fomo-line">Early members get <span class="hl">priority onboarding</span> when we launch</div>
+      <div class="fomo-line">Only <span class="hl">a few spots</span> available for launch week clients</div>
+      <div class="fomo-line">Someone from <span class="hl">Helsinki</span> just joined the waitlist</div>
     </div>
   </div>
 
@@ -496,14 +512,6 @@
   let count = 47;
   const countEl = document.getElementById('waitlist-count');
   const subEl = document.getElementById('waitlist-sub');
-  const fomoLine = document.getElementById('fomo-line');
-  const fomoMessages = [
-    'Someone from <span class="hl">Tampere</span> just joined the waitlist',
-    'Early members get <span class="hl">priority onboarding</span> when we launch',
-    'Only <span class="hl">a few spots</span> available for launch week clients',
-    'Someone from <span class="hl">Helsinki</span> just joined the waitlist'
-  ];
-  let currentFomo = 0;
 
   setInterval(() => {
     if (Math.random() > 0.65) {
@@ -512,15 +520,6 @@
       if (subEl) subEl.textContent = count + ' others';
     }
   }, 20000);
-
-  setInterval(() => {
-    let nextFomo = Math.floor(Math.random() * fomoMessages.length);
-    while (nextFomo === currentFomo) {
-      nextFomo = Math.floor(Math.random() * fomoMessages.length);
-    }
-    currentFomo = nextFomo;
-    fomoLine.innerHTML = fomoMessages[currentFomo];
-  }, 3500);
 
   async function handleSubmit() {
     const input = document.getElementById('email-input');
