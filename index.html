@@ -17,8 +17,8 @@
     --border: rgba(255,255,255,0.055);
     --border-soft: rgba(255,255,255,0.1);
     --text-primary: #E8EBF4;
-    --text-muted: rgba(232,235,244,0.48);
-    --text-dim: rgba(232,235,244,0.2);
+    --text-muted: rgba(232,235,244,0.6);
+    --text-dim: rgba(232,235,244,0.54);
     --accent: #8BA7F0;
     --accent-dim: rgba(139,167,240,0.08);
     --accent-border: rgba(139,167,240,0.18);
@@ -136,6 +136,7 @@
     text-align: center;
     max-width: 420px;
     line-height: 1.8;
+    text-wrap: balance;
     animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.25s both;
   }
 
@@ -157,6 +158,7 @@
     letter-spacing: 0.1em;
     color: var(--accent);
     text-transform: uppercase;
+    white-space: nowrap;
   }
   .urgency-text {
     font-size: 13px;
@@ -219,13 +221,13 @@
     min-width: 160px;
   }
   .pillar:hover { border-color: var(--border-soft); background: var(--surface-2); }
-  .pillar-number {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
+  .pillar-icon {
+    width: 22px;
+    height: 22px;
     color: var(--accent);
-    opacity: 0.55;
+    margin-bottom: 4px;
   }
+  .pillar-icon svg { width: 100%; height: 100%; display: block; stroke: currentColor; fill: none; }
   .pillar-label { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
   .pillar-desc { font-size: 12px; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
 
@@ -253,9 +255,10 @@
     border: 1px solid rgba(157,141,240,0.16);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    font-size: 18px;
+    color: var(--purple);
     margin-top: 2px;
   }
+  .adara-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; display: block; }
   .adara-body { flex: 1; }
   .adara-top {
     display: flex;
@@ -334,6 +337,7 @@
   }
   .notify-btn:hover { opacity: 0.85; }
   .notify-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .notify-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   .notify-disclaimer {
     font-family: 'DM Mono', monospace;
@@ -387,6 +391,7 @@
     transition: color 0.2s;
   }
   .footer-link:hover { color: var(--accent); }
+  .footer-link:focus-visible, .footer-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
@@ -394,11 +399,38 @@
   }
 
   @media (max-width: 640px) {
+    main { padding: 56px 22px; }
     .pillars { flex-direction: column; width: 100%; max-width: 320px; }
     .adara-card { max-width: 320px; }
-    .notify-input { width: 155px; }
-    .live-bar { gap: 12px; padding: 7px 14px; }
+    .live-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px 14px;
+      padding: 10px 18px;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .live-bar .live-sep { display: none; }
+    .live-item { font-size: 10px; }
+    .urgency { flex-wrap: wrap; justify-content: center; text-align: center; max-width: 320px; }
+    .urgency-text { width: 100%; }
+    .fomo-line { justify-content: center; font-size: 10px; }
+    .notify-form { flex-direction: column; width: 100%; max-width: 320px; }
+    .notify-input { width: 100%; text-align: center; }
+    .notify-btn { width: 100%; }
     footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .live-bar, .logo-wrap, .tagline, .urgency, .fomo-ticker, .pillars, .adara-card, .notify-block {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .fomo-inner { animation: none; }
+    .live-dot { animation: none; }
   }
 </style>
 </head>
@@ -448,28 +480,28 @@
 
   <div class="pillars">
     <div class="pillar">
-      <span class="pillar-number">01</span>
+      <span class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
       <span class="pillar-label">Meta Ads</span>
       <span class="pillar-desc">Campaign setup,<br>optimization &amp; reporting</span>
     </div>
     <div class="pillar">
-      <span class="pillar-number">02</span>
+      <span class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.14 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg></span>
       <span class="pillar-label">AI Creative</span>
       <span class="pillar-desc">Videos, images &amp;<br>copy at scale</span>
     </div>
     <div class="pillar">
-      <span class="pillar-number">03</span>
+      <span class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></span>
       <span class="pillar-label">Growth Partner</span>
       <span class="pillar-desc">Performance-aligned,<br>no fixed fees</span>
     </div>
   </div>
 
   <div class="adara-card">
-    <div class="adara-icon">⚡</div>
+    <div class="adara-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div>
     <div class="adara-body">
       <div class="adara-top">
         <span class="adara-name">Adara</span>
-        <span class="adara-pill">Coming SOON!</span>
+        <span class="adara-pill">Coming soon</span>
       </div>
       <p class="adara-desc">
         Our <span class="hl">AI-powered campaign tool</span> connects to your Meta Ads account, analyzes performance daily, and delivers one-click optimization suggestions — agency-quality UA without the agency price tag.
@@ -503,8 +535,9 @@
     <img src="./LUNR_WHITE.png" alt="LUNR">
   </a>
   <div class="footer-right">
+    <a href="/privacy" class="footer-link">Privacy Policy</a>
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=office@hellolunr.com" class="footer-link" target="_blank" rel="noopener">office@hellolunr.com</a>
-    <a href="https://linkedin.com/" class="footer-link">LinkedIn</a>
+    <a href="https://www.linkedin.com/company/hellolunr" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
   </div>
 </footer>
 

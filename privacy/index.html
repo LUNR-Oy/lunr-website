@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — LUNR</title>
+<meta name="description" content="Adara Privacy Policy — how LUNR collects, uses, and protects your information.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07080F;
+    --surface: #0C0E18;
+    --surface-2: #111422;
+    --border: rgba(255,255,255,0.055);
+    --border-soft: rgba(255,255,255,0.1);
+    --text-primary: #E8EBF4;
+    --text-muted: rgba(232,235,244,0.6);
+    --text-dim: rgba(232,235,244,0.54);
+    --accent: #8BA7F0;
+    --accent-dim: rgba(139,167,240,0.08);
+    --accent-border: rgba(139,167,240,0.18);
+    --purple: #9D8DF0;
+    --purple-dim: rgba(157,141,240,0.07);
+    --green: #5EC990;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 {
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(139,167,240,0.055) 0%, transparent 65%);
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    filter: blur(60px);
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(157,141,240,0.045) 0%, transparent 65%);
+    bottom: -50px; right: -80px;
+    filter: blur(80px);
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 32px 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+  /* Header */
+  .doc-badge {
+    display: inline-block;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .effective-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .intro {
+    margin-top: 26px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* Sections */
+  section { margin-bottom: 36px; }
+  section:last-of-type { margin-bottom: 0; }
+  h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  section p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  section ul {
+    list-style: none;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  section li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  section li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  /* Contact card */
+  .contact-card {
+    margin-top: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .contact-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+  .contact-row {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .contact-row a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .contact-row a:hover { opacity: 0.8; }
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-right: 8px;
+  }
+
+  a:focus-visible, .back-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    max-width: 100%;
+  }
+  .footer-logo img {
+    width: 56px;
+    height: auto;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+    display: block;
+  }
+  .footer-logo:hover img { opacity: 0.6; }
+  .footer-right { display: flex; gap: 24px; align-items: center; }
+  .footer-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--accent); }
+  .footer-link:focus-visible, .footer-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  @media (max-width: 640px) {
+    main { padding: 56px 22px 48px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px 24px; }
+    .footer-right { flex-wrap: wrap; justify-content: center; gap: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<main>
+
+  <a class="back-link" href="../">
+    <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    Back to LUNR
+  </a>
+
+  <span class="doc-badge">Legal</span>
+  <h1>Privacy Policy</h1>
+  <p class="effective-date">Effective Date: June 16, 2026</p>
+
+  <p class="intro">
+    Adara (&ldquo;Adara&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is an AI-powered Meta Ads optimization platform operated by LUNR. This Privacy Policy explains what information we collect, how we use it, and the choices available to our users.
+  </p>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2><span class="num">01</span> Information We Collect</h2>
+    <p>We may collect:</p>
+    <ul>
+      <li>Account information such as name, email address, and company information.</li>
+      <li>Advertising account information connected through Meta APIs.</li>
+      <li>Campaign, ad set, ad, performance, and reporting data.</li>
+      <li>Usage analytics, logs, device information, and platform diagnostics.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> How We Use Information</h2>
+    <p>We use collected information to:</p>
+    <ul>
+      <li>Provide and improve Adara services.</li>
+      <li>Generate AI-powered campaign recommendations.</li>
+      <li>Analyze advertising performance.</li>
+      <li>Maintain security, reliability, and fraud prevention.</li>
+      <li>Communicate product updates and support information.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> AI Processing</h2>
+    <p>Adara analyzes advertising account data using artificial intelligence models to generate recommendations and insights. Users remain responsible for reviewing and approving actions before implementation.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Data Sharing</h2>
+    <p>We do not sell personal information. We may share information with service providers, infrastructure partners, analytics providers, and legal authorities when required by law.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> Data Retention</h2>
+    <p>We retain information only as long as necessary to provide services, comply with legal obligations, resolve disputes, and enforce agreements.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span> Security</h2>
+    <p>We implement industry-standard administrative, technical, and organizational safeguards designed to protect user data.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">07</span> International Transfers</h2>
+    <p>Data may be processed and stored in multiple jurisdictions where Adara, its service providers, or infrastructure providers operate.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">08</span> Your Rights</h2>
+    <p>Depending on your location, you may have rights to access, correct, delete, export, or restrict processing of your personal information.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">09</span> Third-Party Services</h2>
+    <p>Adara may integrate with Meta Platforms and other third-party services. Their privacy practices are governed by their respective policies.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">10</span> Changes to This Policy</h2>
+    <p>We may update this Privacy Policy periodically. Continued use of the service after updates constitutes acceptance of the revised policy.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">11</span> Contact</h2>
+    <div class="contact-card">
+      <span class="contact-name">LUNR</span>
+      <span class="contact-row"><span class="contact-label">Website</span><a href="https://hellolunr.com" target="_blank" rel="noopener">https://hellolunr.com</a></span>
+      <span class="contact-row"><span class="contact-label">Email</span><a href="mailto:hello@hellolunr.com">hello@hellolunr.com</a></span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="footer-logo" href="../">
+    <img src="../LUNR_WHITE.png" alt="LUNR">
+  </a>
+  <div class="footer-right">
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=office@hellolunr.com" class="footer-link" target="_blank" rel="noopener">office@hellolunr.com</a>
+    <a href="https://www.linkedin.com/company/hellolunr" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body></html>
