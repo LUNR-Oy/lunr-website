@@ -1,9 +1,18 @@
 # Privacy Policy Page — Progress & Handoff
 
-_Last updated: 2026-06-16_
+_Last updated: 2026-06-17 — ✅ COMPLETE, LIVE._
 
 Goal: publish a public Privacy Policy at **https://hellolunr.com/privacy**, hosted directly
 on the site (static HTML, deployed via Vercel from GitHub).
+
+> **Status (2026-06-17): DONE.** Domain verified and assigned to the `lunr-website` project.
+> Live and returning HTTP 200:
+> - `https://hellolunr.com/` → 200
+> - `https://www.hellolunr.com/` → 200
+> - `https://hellolunr.com/privacy` → 307 → `www.hellolunr.com/privacy` → 200 (real policy, ~11KB)
+>
+> Apex redirects to `www` (Vercel default). Email/MX preserved (nameservers stayed on GoDaddy,
+> verified via TXT). Nothing left to do.
 
 ---
 
@@ -43,13 +52,15 @@ Commits (all pushed to `origin/main`):
 
 ---
 
-## ⏳ Remaining — ONE step: verify domain ownership in Vercel
+## ✅ Resolved — domain ownership verified in Vercel
 
-Vercel won't route the domain until ownership is verified, because GoDaddy still uses its own
-nameservers (`ns75/ns76.domaincontrol.com`), not Vercel's. Live URL currently returns
-`404 DEPLOYMENT_NOT_FOUND` ("no production deployment") for this reason.
+This was the last blocker and is now done. The domain verified via TXT (nameservers stayed
+on GoDaddy, so `@hellolunr.com` email/MX is intact) and is assigned to the `lunr-website`
+project's production. All URLs return 200.
 
-**Action — GoDaddy admin adds these two TXT records** (leave all other records untouched):
+### Reference — the TXT records used (kept for the record)
+
+GoDaddy admin added these two TXT records (all other records left untouched):
 
 | Type | Name / Host | Value |
 |------|-------------|-------|
@@ -74,8 +85,8 @@ nameservers to Vercel would move all DNS and break MX/email until manually recre
 ## Status by layer
 - ✅ **GitHub** — code correct and pushed.
 - ✅ **Vercel build** — production deploy has `/privacy`.
-- ✅ **GoDaddy A/CNAME** — already points to Vercel.
-- ⏳ **Vercel domain verification** — blocked on the 2 TXT records above. This is the only thing left.
+- ✅ **GoDaddy A/CNAME** — points to Vercel.
+- ✅ **Vercel domain verification** — verified via TXT; domain assigned. Site live (200).
 
-## Final URL (after verification)
-**https://hellolunr.com/privacy**
+## Final URL
+**https://hellolunr.com/privacy** — live, HTTP 200.
