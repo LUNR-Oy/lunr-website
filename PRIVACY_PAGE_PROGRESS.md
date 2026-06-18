@@ -1,6 +1,6 @@
-# Privacy Policy Page — Progress & Handoff
+# Legal Pages — Progress & Handoff
 
-_Last updated: 2026-06-17 — ✅ COMPLETE, LIVE._
+_Last updated: 2026-06-18 — ✅ COMPLETE, LIVE (Adara/LUNR privacy). Content Machine pages built and removed (see below)._
 
 Goal: publish a public Privacy Policy at **https://hellolunr.com/privacy**, hosted directly
 on the site (static HTML, deployed via Vercel from GitHub).
@@ -90,3 +90,49 @@ nameservers to Vercel would move all DNS and break MX/email until manually recre
 
 ## Final URL
 **https://hellolunr.com/privacy** — live, HTTP 200.
+
+---
+
+## Content Machine Legal Pages — Built & Removed (2026-06-18)
+
+Content Machine is an AI-powered autonomous content operating system created and operated by Cenk Emir Bat. Legal pages were built for TikTok Developer review and Google OAuth review.
+
+### What was built
+
+Two pages following the `/[project-slug]/privacy` and `/[project-slug]/terms` URL convention:
+
+- `content-machine/privacy/index.html` → `hellolunr.com/content-machine/privacy`
+- `content-machine/terms/index.html` → `hellolunr.com/content-machine/terms`
+
+Both pages:
+- Matched the existing LUNR design system (same fonts, colors, orbs, CSS variables).
+- Were hidden from main site — no links from homepage, nav, or global footer.
+- Cross-linked only to each other via an internal footer (`Privacy Policy | Terms of Service`).
+- Used `<meta name="robots" content="index, follow">` and canonical URLs pointing to `hellolunr.com`.
+- Contact: `cenkemirbat@gmail.com` / Cenk Emir Bat.
+
+**Privacy Policy** covered: OAuth authentication flow, data categories collected (account IDs, video metadata, publishing info, analytics, engagement metrics), no data selling, no third-party sharing (except service delivery/legal compliance), data retention, GDPR rights, data deletion rights, international transfers, YouTube and TikTok platform policies.
+
+**Terms of Service** covered: service description, user responsibilities, platform compliance (YouTube ToS + TikTok ToS), OAuth/account connection responsibilities, content ownership, intellectual property, no guarantees of performance/views/reach/revenue/growth, limitation of liability, termination, governing law (Finland).
+
+### Commits
+
+| Hash | Description |
+|------|-------------|
+| `576fa7d` | Add Content Machine legal pages (privacy + terms) |
+| `120aa9a` | Remove Content Machine legal pages |
+
+### Why removed
+
+Pages were removed from the repo after being built. If you need to republish them, recreate the directory structure:
+
+```
+lunr-website/
+  content-machine/
+    privacy/
+      index.html
+    terms/
+      index.html
+```
+
+The reusable architecture convention is `/[project-slug]/privacy/index.html` and `/[project-slug]/terms/index.html`. Future projects (e.g. `/adara/privacy`) follow the same pattern — no build system or config required, Vercel serves directory `index.html` files automatically at their path.
