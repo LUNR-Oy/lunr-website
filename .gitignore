@@ -1,2 +1,14 @@
 .DS_Store
 .vercel
+
+# Tooling
+node_modules
+dist
+
+# Local env (never commit real IDs/secrets)
+.env
+.env.local
+.env.*.local
+
+# Build-generated runtime config (emitted into dist/ at build time)
+analytics-config.js
