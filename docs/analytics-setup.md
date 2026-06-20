@@ -172,7 +172,8 @@ No dashboard build-setting changes are needed; `vercel.json` overrides them.
 | `signup_started` | Waitlist form submit with a valid email | ✅ implemented |
 | `waitlist_signup` | Waitlist Formspree submission succeeds (also = `signup_completed`) | ✅ implemented |
 | `signup_completed` | — | ↳ same action as `waitlist_signup`; not fired separately |
-| `contact_form_submit` | No contact form exists (only a mailto link) | ⚠️ not present |
+| `contact_click` | Footer "Contact Us" link click (opens email compose) | ✅ implemented |
+| `contact_form_submit` | No contact form exists (the site uses an email link, tracked as `contact_click`) | ⚠️ n/a |
 | `book_call_click` | No booking UI exists | ⚠️ not present |
 | `demo_click` | No demo UI exists | ⚠️ not present |
 | `pricing_view` | No pricing section/page exists | ⚠️ not present |
