@@ -37,7 +37,7 @@
   "logo": "https://www.hellolunr.com/LUNR_WHITE.png",
   "email": "office@hellolunr.com",
   "description": "Performance marketing & AI-powered creative production for businesses that want real growth.",
-  "sameAs": ["https://www.linkedin.com/company/hellolunr"]
+  "sameAs": ["https://www.linkedin.com/company/hellolunr", "https://www.instagram.com/hellolunr/"]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -428,6 +428,15 @@
   }
   .footer-link:hover { color: var(--accent); }
   .footer-link:focus-visible, .footer-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .footer-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .footer-icon:hover { color: var(--accent); }
+  .footer-icon svg { width: 16px; height: 16px; display: block; stroke: currentColor; fill: none; }
+  .footer-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
@@ -574,6 +583,9 @@
     <a href="/privacy" class="footer-link">Privacy Policy</a>
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=office@hellolunr.com" class="footer-link" target="_blank" rel="noopener">office@hellolunr.com</a>
     <a href="https://www.linkedin.com/company/hellolunr" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.instagram.com/hellolunr/" class="footer-icon" target="_blank" rel="noopener" aria-label="LUNR on Instagram" title="Instagram">
+      <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
   </div>
 </footer>
 
