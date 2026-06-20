@@ -1,6 +1,70 @@
 # LUNR Website — Progress
 
-_Last updated: 2026-06-19_
+_Last updated: 2026-06-20_
+
+---
+
+## Analytics Foundation — ✅ COMPLETE, LIVE
+
+**Goal:** add a lightweight, production-safe analytics stack (GA4 + Microsoft Clarity),
+conversion tracking, and SEO/Search Console readiness — without hardcoding any IDs.
+
+**Status (2026-06-20): DONE and live in production on `www.hellolunr.com`.**
+
+### Architecture (static site + tiny build step)
+The site is plain static HTML, so a small build step injects IDs from env at build time:
+
+- `vercel.json` → `buildCommand: npm run build`, `outputDirectory: dist`, `framework: null`.
+- `scripts/build.mjs` reads `NEXT_PUBLIC_GA_MEASUREMENT_ID` / `NEXT_PUBLIC_CLARITY_PROJECT_ID`
+  from env (local `.env`, gitignored; Vercel Production env vars in prod), generates
+  `dist/analytics-config.js` (`window.__LUNR_ANALYTICS__`), and copies assets to `dist/`.
+- `analytics.js` loads GA4 + Clarity only for IDs that are present (missing ID → loads
+  nothing, no errors). Exposes a safe no-op `window.trackEvent(name, params)`.
+- Validated with ESLint + strict `tsc` (`npm run lint` / `typecheck` both green).
+
+### IDs (set in Vercel Production env, NOT in source)
+- GA4 Measurement ID: `G-LSF2E22DPX`
+- Microsoft Clarity Project ID: `x9ypbxtzzy`
+
+### Events implemented (GA4)
+- `page_view` — automatic on every page.
+- `signup_started` — waitlist form submit with a valid email.
+- `waitlist_signup` — waitlist Formspree success (also serves as `signup_completed`).
+- `contact_click` — footer "Contact Us" link click (`{location:'footer'}`).
+- Not present (no matching UI; documented): `book_call_click`, `demo_click`, `pricing_view`,
+  `contact_form_submit` (site uses an email link), `connect_meta_click`.
+
+### SEO / Search Console readiness
+- `index.html`: meta description, canonical, robots, Open Graph + Twitter, Organization JSON-LD.
+- `privacy/index.html`: canonical + Open Graph.
+- New `robots.txt` + `sitemap.xml`.
+- **Canonical host standardized on `www.hellolunr.com`** (apex 307-redirects to www; all
+  canonical/OG/JSON-LD/robots/sitemap URLs use www).
+
+### Footer / social polish
+- "Contact Us" link (opens email compose to `office@hellolunr.com`), tracked as `contact_click`.
+- LinkedIn + Instagram (`instagram.com/hellolunr/`) as small lucide-style **icons**; both in
+  Organization JSON-LD `sameAs`.
+
+### Files added
+`analytics.js`, `global.d.ts`, `scripts/build.mjs`, `package.json`, `package-lock.json`,
+`tsconfig.json`, `eslint.config.js`, `vercel.json`, `.env.example`, `robots.txt`, `sitemap.xml`,
+`docs/analytics-setup.md`. Modified: `index.html`, `privacy/index.html`, `.gitignore`.
+
+### Commits
+| Hash | Description |
+|------|-------------|
+| `a028ea2` | Add analytics foundation: GA4 + Clarity, SEO, build step |
+| `1939b57` | SEO: use www.hellolunr.com as canonical production domain |
+| `1737503` | Add small Instagram icon link to footer (both pages) |
+| `59b4041` | Make LinkedIn footer link an icon for consistency |
+| `a9658e9` | Relabel footer email link to "Contact Us" |
+| `3655d46` | Track Contact Us clicks as GA4 contact_click event |
+
+### Remaining manual step (owner)
+- **Google Search Console**: add the `hellolunr.com` Domain property (covers apex + www),
+  verify via a `google-site-verification` TXT in GoDaddy, then submit
+  `https://www.hellolunr.com/sitemap.xml`. Full walkthrough in `docs/analytics-setup.md`.
 
 ---
 
