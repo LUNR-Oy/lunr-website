@@ -96,9 +96,9 @@ Required environment variables (see [`.env.example`](../.env.example)):
 
 ### Validation steps
 1. After verification, open **Sitemaps** (left nav) → submit `sitemap.xml`
-   (full: `https://hellolunr.com/sitemap.xml`).
+   (full: `https://www.hellolunr.com/sitemap.xml`).
 2. Use **URL Inspection** on `https://hellolunr.com/` → **Request indexing**.
-3. Confirm `https://hellolunr.com/robots.txt` is reachable and references the sitemap.
+3. Confirm `https://www.hellolunr.com/robots.txt` is reachable and references the sitemap.
 
 ---
 
@@ -123,7 +123,7 @@ No dashboard build-setting changes are needed; `vercel.json` overrides them.
 ### Production deployment verification
 1. **Redeploy** after adding env vars (env changes require a new build):
    Deployments → latest → **Redeploy**, or push to the production branch.
-2. After deploy, visit `https://hellolunr.com/analytics-config.js` — it should show
+2. After deploy, visit `https://www.hellolunr.com/analytics-config.js` — it should show
    your real IDs (not `null`).
 3. Run the browser checks below.
 
@@ -157,8 +157,8 @@ No dashboard build-setting changes are needed; `vercel.json` overrides them.
   safe no-op.
 
 ### Search Console readiness
-- `https://hellolunr.com/robots.txt` returns the policy + sitemap line.
-- `https://hellolunr.com/sitemap.xml` returns valid XML with both URLs.
+- `https://www.hellolunr.com/robots.txt` returns the policy + sitemap line.
+- `https://www.hellolunr.com/sitemap.xml` returns valid XML with both URLs.
 - View source on `/` → confirm `<link rel="canonical">`, `<meta name="description">`,
   Open Graph tags, and the Organization JSON-LD are present.
 
