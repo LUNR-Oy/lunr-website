@@ -1,6 +1,43 @@
 # LUNR Website — Progress
 
-_Last updated: 2026-06-20_
+_Last updated: 2026-06-21_
+
+---
+
+## Data Deletion Instructions Page — ✅ COMPLETE, LIVE
+
+**Goal:** publish a public **Data Deletion Instructions URL** required by the Meta developer
+app (Adara connects to Meta APIs, so Meta requires a page telling users how to request data
+deletion — the instructions-URL option, not the programmatic callback).
+
+**Status (2026-06-21): DONE and live in production.** Verified:
+- `https://hellolunr.com/data-deletion` → 307 → `www.hellolunr.com/data-deletion`
+- `https://www.hellolunr.com/data-deletion` → 200 (`<title>Data Deletion Instructions — LUNR</title>`)
+
+**URL for Meta App Settings → Basic → "Data Deletion Instructions URL":**
+`https://www.hellolunr.com/data-deletion`
+
+### What was built
+- **New page:** `data-deletion/index.html` — served at `/data-deletion` (Vercel serves a
+  directory's `index.html` at its path; no config needed). Mirrors the `/privacy` design
+  system (same fonts, colors, orbs, footer). Public, no login, `<meta name="robots" content="index, follow">`.
+  - Sections: (01) what data a request covers — account info, Meta API tokens, campaign/
+    performance data, logs; (02) how to request — email `office@hellolunr.com` with subject
+    "Data Deletion Request", plus the Meta Settings → Business Integrations disconnect path;
+    (03) what happens next — deletion + token revocation, ~30 days, legal-retention caveat
+    linking to `/privacy`; (04) contact card.
+- **Build wiring:** added `"data-deletion"` to `ASSETS` in `scripts/build.mjs` so it copies
+  into `dist/`. Build verified green.
+- **SEO:** added `https://www.hellolunr.com/data-deletion` to `sitemap.xml`. Canonical + OG tags on the page.
+
+### Commits
+| Hash | Description |
+|------|-------------|
+| `d9098eb` | Add Data Deletion Instructions page at /data-deletion |
+
+### Vercel
+- Pushed to `main`; Git integration auto-triggered a Production deploy (status **Ready**) on
+  the `lunr-website` project under team **"LUNR Oy"**. No manual deploy needed.
 
 ---
 
