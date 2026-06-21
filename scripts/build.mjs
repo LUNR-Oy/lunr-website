@@ -32,6 +32,7 @@ if (existsSync(ENV_FILE)) {
 const ASSETS = [
   "index.html",
   "privacy",
+  "data-deletion",
   "favicon.svg",
   "LUNR_WHITE.png",
   "analytics.js",

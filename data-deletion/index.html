@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Deletion Instructions — LUNR</title>
+<meta name="description" content="How to request deletion of your data from Adara by LUNR, including data obtained through Meta APIs.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.hellolunr.com/data-deletion">
+<meta name="theme-color" content="#07080F">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LUNR">
+<meta property="og:title" content="Data Deletion Instructions — LUNR">
+<meta property="og:description" content="How to request deletion of your data from Adara by LUNR, including data obtained through Meta APIs.">
+<meta property="og:url" content="https://www.hellolunr.com/data-deletion">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+<!-- Analytics: config is generated from env at build time; loads nothing if IDs are unset -->
+<script src="/analytics-config.js"></script>
+<script type="module" src="/analytics.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07080F;
+    --surface: #0C0E18;
+    --surface-2: #111422;
+    --border: rgba(255,255,255,0.055);
+    --border-soft: rgba(255,255,255,0.1);
+    --text-primary: #E8EBF4;
+    --text-muted: rgba(232,235,244,0.6);
+    --text-dim: rgba(232,235,244,0.54);
+    --accent: #8BA7F0;
+    --accent-dim: rgba(139,167,240,0.08);
+    --accent-border: rgba(139,167,240,0.18);
+    --purple: #9D8DF0;
+    --purple-dim: rgba(157,141,240,0.07);
+    --green: #5EC990;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 {
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(139,167,240,0.055) 0%, transparent 65%);
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    filter: blur(60px);
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(157,141,240,0.045) 0%, transparent 65%);
+    bottom: -50px; right: -80px;
+    filter: blur(80px);
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 32px 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+  /* Header */
+  .doc-badge {
+    display: inline-block;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .effective-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .intro {
+    margin-top: 26px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* Sections */
+  section { margin-bottom: 36px; }
+  section:last-of-type { margin-bottom: 0; }
+  h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  section p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  section p + p { margin-top: 12px; }
+  section ul {
+    list-style: none;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  section ol {
+    margin-top: 12px;
+    padding-left: 2px;
+    list-style: none;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  section li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  section ul li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+  section ol li {
+    padding-left: 38px;
+    counter-increment: step;
+  }
+  section ol li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 7px;
+  }
+  section li a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  section li a:hover { opacity: 0.8; }
+  section p a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  section p a:hover { opacity: 0.8; }
+
+  /* Contact card */
+  .contact-card {
+    margin-top: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .contact-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+  .contact-row {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .contact-row a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .contact-row a:hover { opacity: 0.8; }
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-right: 8px;
+  }
+
+  a:focus-visible, .back-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    max-width: 100%;
+  }
+  .footer-logo img {
+    width: 56px;
+    height: auto;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+    display: block;
+  }
+  .footer-logo:hover img { opacity: 0.6; }
+  .footer-right { display: flex; gap: 24px; align-items: center; }
+  .footer-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--accent); }
+  .footer-link:focus-visible, .footer-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .footer-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .footer-icon:hover { color: var(--accent); }
+  .footer-icon svg { width: 16px; height: 16px; display: block; stroke: currentColor; fill: none; }
+  .footer-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  @media (max-width: 640px) {
+    main { padding: 56px 22px 48px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px 24px; }
+    .footer-right { flex-wrap: wrap; justify-content: center; gap: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<main>
+
+  <a class="back-link" href="../">
+    <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    Back to LUNR
+  </a>
+
+  <span class="doc-badge">Legal</span>
+  <h1>Data Deletion Instructions</h1>
+  <p class="effective-date">Last updated: June 21, 2026</p>
+
+  <p class="intro">
+    Adara (&ldquo;Adara&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), operated by LUNR, is an AI-powered Meta Ads optimization platform. This page explains how you can request the deletion of personal data we hold about you, including data we obtain through the Meta (Facebook and Instagram) APIs when you connect your advertising accounts.
+  </p>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2><span class="num">01</span> What Data This Covers</h2>
+    <p>A deletion request covers the personal data associated with your Adara account, including:</p>
+    <ul>
+      <li>Account information such as your name, email address, and company details.</li>
+      <li>Meta advertising account connections and access tokens obtained through Meta APIs.</li>
+      <li>Campaign, ad set, ad, performance, and reporting data retrieved from your connected accounts.</li>
+      <li>Usage analytics, logs, and diagnostics tied to your account.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> How to Request Deletion</h2>
+    <p>To request deletion of your data, follow these steps:</p>
+    <ol>
+      <li>Send an email to <a href="mailto:office@hellolunr.com?subject=Data%20Deletion%20Request">office@hellolunr.com</a> from the email address associated with your Adara account.</li>
+      <li>Use the subject line <strong>&ldquo;Data Deletion Request&rdquo;</strong>.</li>
+      <li>Include the name and email of your Adara account, and, if applicable, the Meta advertising account(s) you connected.</li>
+    </ol>
+    <p>You may also disconnect Adara at any time from your Meta account settings under <a href="https://www.facebook.com/settings?tab=business_tools" target="_blank" rel="noopener">Settings &rarr; Business Integrations</a>, which revokes our ongoing access to your Meta data.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> What Happens Next</h2>
+    <p>Once we receive and verify your request, we will delete the personal data we hold about you and revoke any stored Meta API access tokens. We will confirm completion by email, typically within 30 days.</p>
+    <p>We may retain a limited subset of information where required to comply with legal obligations, resolve disputes, prevent fraud, or enforce our agreements, as described in our <a href="/privacy">Privacy Policy</a>. Such retained data is securely stored and deleted once the obligation no longer applies.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Contact</h2>
+    <div class="contact-card">
+      <span class="contact-name">LUNR — Data Requests</span>
+      <span class="contact-row"><span class="contact-label">Website</span><a href="https://hellolunr.com" target="_blank" rel="noopener">https://hellolunr.com</a></span>
+      <span class="contact-row"><span class="contact-label">Email</span><a href="mailto:office@hellolunr.com?subject=Data%20Deletion%20Request">office@hellolunr.com</a></span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="footer-logo" href="../">
+    <img src="../LUNR_WHITE.png" alt="LUNR">
+  </a>
+  <div class="footer-right">
+    <a href="/privacy" class="footer-link">Privacy Policy</a>
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=office@hellolunr.com" class="footer-link" target="_blank" rel="noopener" onclick="if(window.trackEvent)window.trackEvent('contact_click',{location:'footer'})">Contact Us</a>
+    <a href="https://www.linkedin.com/company/hellolunr" class="footer-icon" target="_blank" rel="noopener" aria-label="LUNR on LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.instagram.com/hellolunr/" class="footer-icon" target="_blank" rel="noopener" aria-label="LUNR on Instagram" title="Instagram">
+      <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+  </div>
+</footer>
+
+</body></html>
